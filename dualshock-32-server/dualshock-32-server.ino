@@ -58,80 +58,56 @@ void loadConfig() {
     buttonPins[i] = doc["buttonPins"][i] | buttonPins[i];
   }
 }
+const int ledPin = 2;
 
 int batteryLevel = 0;
 ControllerState controllerState;
 
 void onCommandReceived() {
-  controllerState.setButtonCross(Ps3.event.button_down.cross);
-  if (Ps3.event.button_up.cross)
-    controllerState.setButtonCross(false);
+  // Pressed buttons
+  if (Ps3.event.button_down.cross) controllerState.setButtonCross(true);
+  if (Ps3.event.button_down.square) controllerState.setButtonSquare(true);
+  if (Ps3.event.button_down.triangle) controllerState.setButtonTriangle(true);
+  if (Ps3.event.button_down.circle) controllerState.setButtonCircle(true);
 
-  controllerState.setButtonSquare(Ps3.event.button_down.square);
-  if (Ps3.event.button_up.square)
-    controllerState.setButtonSquare(false);
+  if (Ps3.event.button_down.up) controllerState.setButtonUp(true);
+  if (Ps3.event.button_down.right) controllerState.setButtonRight(true);
+  if (Ps3.event.button_down.down) controllerState.setButtonDown(true);
+  if (Ps3.event.button_down.left) controllerState.setButtonLeft(true);
 
-  controllerState.setButtonTriangle(Ps3.event.button_down.triangle);
-  if (Ps3.event.button_up.triangle)
-    controllerState.setButtonTriangle(false);
+  if (Ps3.event.button_down.l1) controllerState.setButtonL1(true);
+  if (Ps3.event.button_down.r1) controllerState.setButtonR1(true);
+  if (Ps3.event.button_down.l2) controllerState.setButtonL2(true);
+  if (Ps3.event.button_down.r2) controllerState.setButtonR2(true);
+  if (Ps3.event.button_down.l3) controllerState.setButtonL3(true);
+  if (Ps3.event.button_down.r3) controllerState.setButtonR3(true);
 
-  controllerState.setButtonCircle(Ps3.event.button_down.circle);
-  if (Ps3.event.button_up.circle)
-    controllerState.setButtonCircle(false);
+  if (Ps3.event.button_down.select) controllerState.setButtonSelect(true);
+  if (Ps3.event.button_down.start) controllerState.setButtonStart(true);
+  if (Ps3.event.button_down.ps) controllerState.setButtonPs(true);
 
-  controllerState.setButtonUp(Ps3.event.button_down.up);
-  if (Ps3.event.button_up.up)
-    controllerState.setButtonUp(false);
+  // Released buttons
+  if (Ps3.event.button_up.cross) controllerState.setButtonCross(false);
+  if (Ps3.event.button_up.square) controllerState.setButtonSquare(false);
+  if (Ps3.event.button_up.triangle) controllerState.setButtonTriangle(false);
+  if (Ps3.event.button_up.circle) controllerState.setButtonCircle(false);
 
-  controllerState.setButtonRight(Ps3.event.button_down.right);
-  if (Ps3.event.button_up.right)
-    controllerState.setButtonRight(false);
+  if (Ps3.event.button_up.up) controllerState.setButtonUp(false);
+  if (Ps3.event.button_up.right) controllerState.setButtonRight(false);
+  if (Ps3.event.button_up.down) controllerState.setButtonDown(false);
+  if (Ps3.event.button_up.left) controllerState.setButtonLeft(false);
 
-  controllerState.setButtonDown(Ps3.event.button_down.down);
-  if (Ps3.event.button_up.down)
-    controllerState.setButtonDown(false);
+  if (Ps3.event.button_up.l1) controllerState.setButtonL1(false);
+  if (Ps3.event.button_up.r1) controllerState.setButtonR1(false);
+  if (Ps3.event.button_up.l2) controllerState.setButtonL2(false);
+  if (Ps3.event.button_up.r2) controllerState.setButtonR2(false);
+  if (Ps3.event.button_up.l3) controllerState.setButtonL3(false);
+  if (Ps3.event.button_up.r3) controllerState.setButtonR3(false);
 
-  controllerState.setButtonLeft(Ps3.event.button_down.left);
-  if (Ps3.event.button_up.left)
-    controllerState.setButtonLeft(false);
+  if (Ps3.event.button_up.select) controllerState.setButtonSelect(false);
+  if (Ps3.event.button_up.start) controllerState.setButtonStart(false);
+  if (Ps3.event.button_up.ps) controllerState.setButtonPs(false);
 
-  controllerState.setButtonL1(Ps3.event.button_down.l1);
-  if (Ps3.event.button_up.l1)
-    controllerState.setButtonL1(false);
-
-  controllerState.setButtonR1(Ps3.event.button_down.r1);
-  if (Ps3.event.button_up.r1)
-    controllerState.setButtonR1(false);
-
-  controllerState.setButtonL2(Ps3.event.button_down.l2);
-  if (Ps3.event.button_up.l2)
-    controllerState.setButtonL2(false);
-
-  controllerState.setButtonR2(Ps3.event.button_down.r2);
-  if (Ps3.event.button_up.r2)
-    controllerState.setButtonR2(false);
-
-  controllerState.setButtonL3(Ps3.event.button_down.l3);
-  if (Ps3.event.button_up.l3)
-    controllerState.setButtonL3(false);
-
-  controllerState.setButtonR3(Ps3.event.button_down.r3);
-  if (Ps3.event.button_up.r3)
-    controllerState.setButtonR3(false);
-
-  controllerState.setButtonSelect(Ps3.event.button_down.select);
-  if (Ps3.event.button_up.select)
-    controllerState.setButtonSelect(false);
-
-  controllerState.setButtonStart(Ps3.event.button_down.start);
-  if (Ps3.event.button_up.start)
-    controllerState.setButtonStart(false);
-
-  controllerState.setButtonPs(Ps3.event.button_down.ps);
-  if (Ps3.event.button_up.ps)
-    controllerState.setButtonPs(false);
-
-  // Analog sticks and buttons
   if (abs(Ps3.event.analog_changed.stick.lx) + abs(Ps3.event.analog_changed.stick.ly) > 2) {
     controllerState.setAnalogLeftX(Ps3.data.analog.stick.lx);
     controllerState.setAnalogLeftY(Ps3.data.analog.stick.ly);
@@ -141,12 +117,6 @@ void onCommandReceived() {
     controllerState.setAnalogRightX(Ps3.data.analog.stick.rx);
     controllerState.setAnalogRightY(Ps3.data.analog.stick.ry);
   }
-
-  // Trigger analog buttons with pressure levels
-  controllerState.setButtonTriangle(Ps3.data.analog.button.triangle);
-  controllerState.setButtonCircle(Ps3.data.analog.button.circle);
-  controllerState.setButtonCross(Ps3.data.analog.button.cross);
-  controllerState.setButtonSquare(Ps3.data.analog.button.square);
 
   // Battery level changes
   if (batteryLevel != Ps3.data.status.battery) {
@@ -166,38 +136,24 @@ void onCommandReceived() {
 
 void onConnect() {
   Serial.println("Connected.");
+  digitalWrite(ledPin, HIGH);
 }
 
-enum ButtonType {
-  CROSS,
-  CIRCLE,
-  SQUARE,
-  TRIANGLE,
-  LEFT,
-  UP,
-  RIGHT,
-  DOWN,
-  R1,
-  R2,
-  R3,
-  L1,
-  L2,
-  L3,
-  OPTIONS,
-  SHARE,
-  PS_BUTTON,
-  ANALOG_LEFT_X,
-  ANALOG_LEFT_Y,
-  ANALOG_RIGHT_X,
-  ANALOG_RIGHT_Y,
-};
+void initPS3() {
+  Ps3.attach(onCommandReceived);
+  Ps3.attachOnConnect(onConnect);
+  Ps3.begin("FC:B4:67:F6:1B:78");  // MAC address of ESP Server
+}
+
+void pairWithCompanionApp() {
+
+}
 
 void setup() {
-    Serial.begin(115200);
-    Ps3.begin("FC:B4:67:F6:1B:78");  // MAC address of ESP Server
-    Ps3.attach(onCommandReceived);
-    Ps3.attachOnConnect(onConnect);
-    
+  Serial.begin(115200);
+  pinMode(ledPin,OUTPUT);
+  digitalWrite(ledPin, LOW);
+  initPS3();
 
     BLEDevice::init("ESP32");
     pServer = BLEDevice::createServer();
@@ -230,8 +186,9 @@ void setup() {
 void loop() {
   if (!Ps3.isConnected()) {
     Serial.println("Waiting for controller connection...");
+    digitalWrite(ledPin, LOW);
     delay(100);
     return;
   }
-  delay(2000);
+  delay(10);
 }
