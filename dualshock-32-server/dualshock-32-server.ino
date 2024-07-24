@@ -109,4 +109,5 @@ void loop() {
     delay(100);
     return;
   }
+  delay(10);
 }

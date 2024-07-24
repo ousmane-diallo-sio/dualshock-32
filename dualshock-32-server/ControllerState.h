@@ -35,12 +35,13 @@ private:
   int touchpad;
 
   void onButtonChange(ControllerCommand command, bool newState) {
-    Serial.print(getCommandName(command));
-    Serial.println(newState);
+    Serial.print(newState ? "PRESS " : "RELEASE ");
+    Serial.println(getCommandId(command));
   }
 
   void onAnalogChange(ControllerCommand command, int newX, int newY) {
-    Serial.print(getCommandName(command));
+    Serial.print("MOVE ");
+    Serial.print(getCommandId(command));
     Serial.print(" X: ");
     Serial.print(newX);
     Serial.print(" Y: ");
@@ -55,25 +56,30 @@ public:
       buttonStart(false), buttonSelect(false), buttonPs(false),
       analogLeftX(0), analogLeftY(0), analogRightX(0), analogRightY(0), touchpad(0) {}
 
-  const char* getCommandName(ControllerCommand buttonType) {
+  const char* getCommandId(ControllerCommand buttonType) {
     switch (buttonType) {
-      case ControllerCommand::CROSS: return "Cross";
-      case ControllerCommand::CIRCLE: return "Circle";
-      case ControllerCommand::SQUARE: return "Square";
-      case ControllerCommand::TRIANGLE: return "Triangle";
-      case ControllerCommand::LEFT: return "Left";
-      case ControllerCommand::UP: return "Up";
-      case ControllerCommand::RIGHT: return "Right";
-      case ControllerCommand::DOWN: return "Down";
-      case ControllerCommand::R1: return "R1";
-      case ControllerCommand::R2: return "R2";
-      case ControllerCommand::R3: return "R3";
-      case ControllerCommand::L1: return "L1";
-      case ControllerCommand::L2: return "L2";
-      case ControllerCommand::L3: return "L3";
-      case ControllerCommand::OPTIONS: return "Options";
-      case ControllerCommand::SHARE: return "Share";
-      case ControllerCommand::PS_BUTTON: return "PS Button";
+      case ControllerCommand::CROSS: return "1";
+      case ControllerCommand::CIRCLE: return "2";
+      case ControllerCommand::SQUARE: return "3";
+      case ControllerCommand::TRIANGLE: return "4";
+
+      case ControllerCommand::L1: return "5";
+      case ControllerCommand::R1: return "6";
+      case ControllerCommand::L2: return "7";
+      case ControllerCommand::R2: return "8";
+
+      case ControllerCommand::SHARE: return "9";
+      case ControllerCommand::OPTIONS: return "10";
+
+      case ControllerCommand::L3: return "11";
+      case ControllerCommand::R3: return "12";
+
+      case ControllerCommand::UP: return "13";
+      case ControllerCommand::DOWN: return "14";
+      case ControllerCommand::LEFT: return "15";
+      case ControllerCommand::RIGHT: return "16";
+
+      case ControllerCommand::PS_BUTTON: return "17";
       case ControllerCommand::ANALOG_LEFT_X: return "Left Stick X";
       case ControllerCommand::ANALOG_LEFT_Y: return "Left Stick Y";
       case ControllerCommand::ANALOG_RIGHT_X: return "Right Stick X";
