@@ -5,7 +5,13 @@
 #include <BLEUtils.h>
 #include <BLE2902.h>
 #include <string>
+#include <Preferences.h>
 #include "ControllerState.h"
+
+BLEServer* pServer = nullptr;
+BLECharacteristic* pCharacteristic = nullptr;
+
+Preferences preferences;
 
 #define SERVICE_UUID "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
@@ -16,6 +22,9 @@ class MyCallbacks : public BLECharacteristicCallbacks {
         if (value.length() > 0) {
             Serial.println("Received JWT:");
             Serial.println(value.c_str());
+            preferences.begin("jwt", false);
+            preferences.putString("token", value);
+            preferences.end();
         }
     }
 };
@@ -157,9 +166,10 @@ enum ButtonType {
 
 void setup() {
     Serial.begin(115200);
-      Ps3.attach(onCommandReceived);
-  Ps3.attachOnConnect(onConnect);
     Ps3.begin("FC:B4:67:F6:1B:78");  // MAC address of ESP Server
+    Ps3.attach(onCommandReceived);
+    Ps3.attachOnConnect(onConnect);
+    
 
     BLEDevice::init("ESP32");
     pServer = BLEDevice::createServer();
@@ -183,6 +193,10 @@ void setup() {
     BLEDevice::startAdvertising();
     
     Serial.println("Waiting for a client connection to notify...");
+
+    preferences.begin("jwt", false);
+    String storedJWT = preferences.getString("token", "No JWT stored");
+    preferences.end();
 }
 
 void loop() {
