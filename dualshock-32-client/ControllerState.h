@@ -36,7 +36,7 @@ private:
 
   void onButtonChange(ControllerCommand command, bool newState) {
     Serial.print(getCommandName(command));
-    Serial.println(newState);
+    // Serial.println(newState ? " pressed" : " released");
   }
 
   void onAnalogChange(ControllerCommand command, int newX, int newY) {
@@ -57,27 +57,25 @@ public:
 
   const char* getCommandName(ControllerCommand buttonType) {
     switch (buttonType) {
-      case ControllerCommand::CROSS: return "Cross";
-      case ControllerCommand::CIRCLE: return "Circle";
-      case ControllerCommand::SQUARE: return "Square";
-      case ControllerCommand::TRIANGLE: return "Triangle";
-      case ControllerCommand::LEFT: return "Left";
-      case ControllerCommand::UP: return "Up";
-      case ControllerCommand::RIGHT: return "Right";
-      case ControllerCommand::DOWN: return "Down";
-      case ControllerCommand::R1: return "R1";
-      case ControllerCommand::R2: return "R2";
-      case ControllerCommand::R3: return "R3";
-      case ControllerCommand::L1: return "L1";
-      case ControllerCommand::L2: return "L2";
-      case ControllerCommand::L3: return "L3";
-      case ControllerCommand::OPTIONS: return "Options";
-      case ControllerCommand::SHARE: return "Share";
-      case ControllerCommand::PS_BUTTON: return "PS Button";
-      case ControllerCommand::ANALOG_LEFT_X: return "Left Stick X";
-      case ControllerCommand::ANALOG_LEFT_Y: return "Left Stick Y";
-      case ControllerCommand::ANALOG_RIGHT_X: return "Right Stick X";
-      case ControllerCommand::ANALOG_RIGHT_Y: return "Right Stick Y";
+      case CROSS: return "Cross";
+      case CIRCLE: return "Circle";
+      case SQUARE: return "Square";
+      case TRIANGLE: return "Triangle";
+      case LEFT: return "Left";
+      case UP: return "Up";
+      case RIGHT: return "Right";
+      case DOWN: return "Down";
+      case R1: return "R1";
+      case R2: return "R2";
+      case R3: return "R3";
+      case L1: return "L1";
+      case L2: return "L2";
+      case L3: return "L3";
+      case OPTIONS: return "Options";
+      case SHARE: return "Share";
+      case PS_BUTTON: return "PS Button";
+      case LEFT_STICK: return "Left Stick";
+      case RIGHT_STICK: return "Right Stick";
       default: return "Unknown";
     }
   }
@@ -85,128 +83,128 @@ public:
   void setButtonCross(bool value) {
     if (buttonCross != value) {
       buttonCross = value;
-      onButtonChange(ControllerCommand::CROSS, value);
+      onButtonChange("Cross", value);
     }
   }
   void setButtonCircle(bool value) {
     if (buttonCircle != value) {
       buttonCircle = value;
-      onButtonChange(ControllerCommand::CIRCLE, value);
+      onButtonChange("Circle", value);
     }
   }
   void setButtonSquare(bool value) {
     if (buttonSquare != value) {
       buttonSquare = value;
-      onButtonChange(ControllerCommand::SQUARE, value);
+      onButtonChange("Square", value);
     }
   }
   void setButtonTriangle(bool value) {
     if (buttonTriangle != value) {
       buttonTriangle = value;
-      onButtonChange(ControllerCommand::TRIANGLE, value);
+      onButtonChange("Triangle", value);
     }
   }
   void setButtonLeft(bool value) {
     if (buttonLeft != value) {
       buttonLeft = value;
-      onButtonChange(ControllerCommand::LEFT, value);
+      onButtonChange("Left", value);
     }
   }
   void setButtonUp(bool value) {
     if (buttonUp != value) {
       buttonUp = value;
-      onButtonChange(ControllerCommand::UP, value);
+      onButtonChange("Up", value);
     }
   }
   void setButtonRight(bool value) {
     if (buttonRight != value) {
       buttonRight = value;
-      onButtonChange(ControllerCommand::RIGHT, value);
+      onButtonChange("Right", value);
     }
   }
   void setButtonDown(bool value) {
     if (buttonDown != value) {
       buttonDown = value;
-      onButtonChange(ControllerCommand::DOWN, value);
+      onButtonChange("Down", value);
     }
   }
   void setButtonR1(bool value) {
     if (buttonR1 != value) {
       buttonR1 = value;
-      onButtonChange(ControllerCommand::R1, value);
+      onButtonChange("R1", value);
     }
   }
   void setButtonR2(bool value) {
     if (buttonR2 != value) {
       buttonR2 = value;
-      onButtonChange(ControllerCommand::R2, value);
+      onButtonChange("R2", value);
     }
   }
   void setButtonR3(bool value) {
     if (buttonR3 != value) {
       buttonR3 = value;
-      onButtonChange(ControllerCommand::R3, value);
+      onButtonChange("R3", value);
     }
   }
   void setButtonL1(bool value) {
     if (buttonL1 != value) {
       buttonL1 = value;
-      onButtonChange(ControllerCommand::L1, value);
+      onButtonChange("L1", value);
     }
   }
   void setButtonL2(bool value) {
     if (buttonL2 != value) {
       buttonL2 = value;
-      onButtonChange(ControllerCommand::L2, value);
+      onButtonChange("L2", value);
     }
   }
   void setButtonL3(bool value) {
     if (buttonL3 != value) {
       buttonL3 = value;
-      onButtonChange(ControllerCommand::L3, value);
+      onButtonChange("L3", value);
     }
   }
   void setButtonStart(bool value) {
     if (buttonStart != value) {
       buttonStart = value;
-      onButtonChange(ControllerCommand::OPTIONS, value);
+      onButtonChange("Options", value);
     }
   }
   void setButtonSelect(bool value) {
     if (buttonSelect != value) {
       buttonSelect = value;
-      onButtonChange(ControllerCommand::SHARE, value);
+      onButtonChange("Select", value);
     }
   }
   void setButtonPs(bool value) {
     if (buttonPs != value) {
       buttonPs = value;
-      onButtonChange(ControllerCommand::PS_BUTTON, value);
+      onButtonChange("PS", value);
     }
   }
 
   void setAnalogLeftX(int value) {
     if (analogLeftX != value) {
       analogLeftX = value;
-      onAnalogChange(ControllerCommand::ANALOG_LEFT_X, value, analogLeftY);
+      onAnalogChange("Left Stick", value, analogLeftY);
     }
   }
   void setAnalogLeftY(int value) {
     if (analogLeftY != value) {
       analogLeftY = value;
-      onAnalogChange(ControllerCommand::ANALOG_LEFT_Y, analogLeftX, value);
+      onAnalogChange("Left Stick", analogLeftX, value);
     }
   }
   void setAnalogRightX(int value) {
     if (analogRightX != value) {
       analogRightX = value;
-      onAnalogChange(ControllerCommand::ANALOG_RIGHT_X, value, analogRightY);
+      onAnalogChange("Right Stick", value, analogRightY);
     }
   }
   void setAnalogRightY(int value) {
     if (analogRightY != value) {
       analogRightY = value;
-      onAnalogChange(ControllerCommand::ANALOG_RIGHT_Y, analogRightX, value);
+      onAnalogChange(ANALOG_RIGHT_Y, analogRightX, value);
     }
   }
   void setTouchpad(int value) {
