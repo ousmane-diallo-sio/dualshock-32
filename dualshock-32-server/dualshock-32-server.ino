@@ -29,7 +29,35 @@ class MyCallbacks : public BLECharacteristicCallbacks {
     }
 };
 
+void loadConfig() {
+  // Open file for reading
+  File file = SPIFFS.open(CONFIG_FILE, FILE_READ);
+  if (!file) {
+    Serial.println("Failed to open config file for reading");
+    return;
+  }
 
+  // Read file into a string
+  String jsonString;
+  while (file.available()) {
+    jsonString += char(file.read());
+  }
+  file.close();
+
+  // Create a JSON object
+  DynamicJsonDocument doc(1024);
+  DeserializationError error = deserializeJson(doc, jsonString);
+  if (error) {
+    Serial.print(F("deserializeJson() failed: "));
+    Serial.println(error.f_str());
+    return;
+  }
+
+  // Load button pins from the JSON object
+  for (int i = 0; i < numberOfButtons; i++) {
+    buttonPins[i] = doc["buttonPins"][i] | buttonPins[i];
+  }
+}
 
 int batteryLevel = 0;
 ControllerState controllerState;
